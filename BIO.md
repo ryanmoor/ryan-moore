@@ -4,4 +4,4 @@ Earlier in his career, Ryan led clinical marketing programs at Hill-Rom (a Baxte
 
 Ryan holds a B.A. in Business/Economics from Wheaton College and is currently an Executive MBA candidate at the University of Hawaii at Manoa's Shidler College of Business. He is based in Honolulu, Hawaii, and is active in volunteer and community leadership efforts across the cities he's called home.
 
-Drafted with help from Claude (Anthropic, 2026); reviewed and edited by me.
+<!-- Drafted with help from Claude (Anthropic, 2026); reviewed and edited by me. -->
