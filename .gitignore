@@ -1,0 +1,23 @@
+# Office temp files
+~$*
+*.tmp
+
+# OS temp/metadata files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor backups/swap files
+*~
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Credentials and secrets
+.env
+.env.*
+*.key
+*.pem
+secrets/
+private/
