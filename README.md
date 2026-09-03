@@ -8,3 +8,8 @@ Ryan holds a B.A. in Business/Economics from Wheaton College and is currently an
 Drafted with help from Claude (Anthropic, 2026); reviewed and edited by me.
 
 # Engagements
+* Perfect Competition
+* Imperfect Competition
+* Economic Profit & Rent
+* Team Case Study
+* Research Project - TBD
