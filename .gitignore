@@ -16,6 +16,9 @@ desktop.ini
 .vscode/
 .idea/
 
+# Untracked locally, not published
+BIO.md
+
 # Credentials and secrets
 .env
 .env.*
