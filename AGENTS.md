@@ -1,36 +1,50 @@
-# AGENTS.md
+# AI conventions
 
-Conventions for AI tools (Claude, etc.) working in this repo. This is the canonical
-file — it tells an AI assistant who I am, how I like to work, and what standards to
-hold my work to. `CLAUDE.md` just points here.
+## About this repository
+This repository contains projects made and owned by Ryan Moore.
+Canonical file: AGENTS.md. CLAUDE.md points here.
 
-## Who I am
+## Where things are
+- capabilities/<capability>/  a capability, with its spec and model
+- docs/briefs/          written BEFORE work: scope + hypothesis
+- docs/decisions/       written AFTER work: recommendations
+- analysis/             findings and figures
+- data/                 sourced inputs, with provenance
 
-<!-- PLACEHOLDER: fill in — role, background, what this portfolio repo is for. -->
+## Naming
+- Always prompt me to review directory and file names before creating; do not choose for me.
+- Graded files use the exact filename the stage brief gives — lowercase,
+  hyphens, no spaces. Some courses date-stamp (YYYY-MM-DD-lastname-slug.md);
+  the stage page says so when they do.
+- Slugs name the engagement, never the week, the course, or the assignment
+  number.
 
-## How I like to work
+## How I work
+- Explain concepts fully and walk the worked example. Do not hand me conclusions.
+- Critique my reasoning directly. I would rather be corrected than agreed with.
+- When you are uncertain, say so and say what would resolve it.
 
-<!-- PLACEHOLDER: fill in — e.g. preferred communication style, how much to draft
-     vs. ask first, how to handle ambiguity, when to push back. -->
+## What you may and may not draft
+- You MAY explain, critique, debug, quiz me, and draft mechanical files.
+- You MAY NOT write my briefs, analyses, memos, or reflections.
+- Every statistic or figure you give me is a draft until I verify it against a source.
 
-## Standards
+## Documentation
+When work changes, update the document that describes it in the same commit.
+A capability's README names the engagements that exercised it — keep that current.
 
-<!-- PLACEHOLDER: fill in — e.g. citation/sourcing expectations, tone, formatting
-     conventions, what "done" looks like for an engagement. -->
+## Scope
+Do the work I asked for. If you notice something worth doing that I did not ask
+for, tell me instead of doing it.
 
-## Repo conventions
+## Commits
+Descriptive messages: what changed and why. Never "update" or "stuff".
 
-- `capabilities/` — one folder per capability, e.g. `marginal-analysis/`. Each has a
-  `README.md` (what it is, which engagements exercised it), a `spec.md` (the method),
-  and any supporting model/template files.
-- `docs/briefs/` — written **before** the work: scope + hypothesis.
-- `docs/decisions/` — written **after** the work: the recommendation, to an audience.
-- `data/` — sourced inputs, with provenance noted.
-- `analysis/` — the findings; `analysis/figures/` holds the charts they refer to.
-- `prompt-log.md` — the running record of AI sessions that mattered.
-- `.claude/skills/` — personal sandbox, mine to experiment with.
+## Never include
+No credentials, no API keys, no personal data about anyone, no licensed or
+copyrighted material. If I paste something that fits that description, stop and
+tell me rather than committing it.
 
-## Every prompt/response logged
-
-<!-- PLACEHOLDER: fill in any additional logging or disclosure conventions I want
-     followed for AI-assisted work in this repo. -->
+## Mistakes to avoid (append to this list)
+Record errors here as they happen, so the same one does not repeat.
+- (empty — add the first one when it happens)
