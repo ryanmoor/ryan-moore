@@ -1,6 +1,6 @@
 # Prompt Log
 
-The running record of AI sessions that mattered — one row per session/task,
+Running record of consequential AI session related to these projects — one row per session/task,
 newest entries at the top.
 
 ## Format
