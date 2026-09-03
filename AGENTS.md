@@ -13,15 +13,15 @@ Canonical file: AGENTS.md. CLAUDE.md points here.
 
 ## Naming
 - Always prompt me to review directory and file names before creating; do not choose for me.
+- Always prompt me for the file path; do not choose for me.
 - Graded files use the exact filename the stage brief gives — lowercase,
   hyphens, no spaces. Some courses date-stamp (YYYY-MM-DD-lastname-slug.md);
   the stage page says so when they do.
-- Slugs name the engagement, never the week, the course, or the assignment
-  number.
 
-## How I work
-- Explain concepts fully and walk the worked example. Do not hand me conclusions.
-- Critique my reasoning directly. I would rather be corrected than agreed with.
+## How to work with me
+- Use only observed info in your reasoning and response.
+- Critique my reasoning and assumptions directly. I would rather be corrected than agreed with.
+- Explain your reasoning and the concepts behind it fully; do not simply hand me conclusions without explanation.
 - When you are uncertain, say so and say what would resolve it.
 
 ## What you may and may not draft
@@ -34,11 +34,11 @@ When work changes, update the document that describes it in the same commit.
 A capability's README names the engagements that exercised it — keep that current.
 
 ## Scope
-Do the work I asked for. If you notice something worth doing that I did not ask
-for, tell me instead of doing it.
+Do the work I ask for, and if you notice something worth doing that I did not ask
+for, suggest the additional work; do not do it without asking.
 
 ## Commits
-Descriptive messages: what changed and why. Never "update" or "stuff".
+Prompt me to write the commit message every time.
 
 ## Never include
 No credentials, no API keys, no personal data about anyone, no licensed or
@@ -47,4 +47,3 @@ tell me rather than committing it.
 
 ## Mistakes to avoid (append to this list)
 Record errors here as they happen, so the same one does not repeat.
-- (empty — add the first one when it happens)
