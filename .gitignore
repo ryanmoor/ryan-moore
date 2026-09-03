@@ -1,8 +1,10 @@
 # What must never enter the history
 
 # Office temp files
-~$*
-*.tmp
+~$*.xlsx
+~$*.xlsm
+~$*.docx
+~$*.pptx
 
 # OS temp/metadata files
 .DS_Store
@@ -15,6 +17,8 @@ desktop.ini
 *.swo
 .vscode/
 .idea/
+*.tmp
+*.bak
 
 # Untracked locally, not published
 BIO.md
