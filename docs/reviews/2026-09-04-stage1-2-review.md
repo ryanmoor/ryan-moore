@@ -12,7 +12,7 @@
 | Workbook satisfies the contract | model.xlsx is real, formula-driven and uses named ranges throughout — Price, VariableCostPerUnit, FixedCosts, Volume, and derived contribution-margin and break-even cells. It is built from its specification, which is the right discipline. It models a product priced at $25 with $14 of variable cost, $8,000 of fixed costs and a volume of 1,500 units. None of those are case figures and the case's decision does not appear in the file. |
 | Audit note | No audit section. Correct with no engagement build behind it. |
 
-> The spec-side criteria are summarised above. Held rather than entered — the stage is not due until 11 September, and the work needed is a redirection rather than a rebuild.
+> The spec-side criteria are summarised above. Held rather than entered — the stage is still open, and the work needed is a redirection rather than a rebuild.
 
 ### What you built is useful — it is just the other half of the structure
 
