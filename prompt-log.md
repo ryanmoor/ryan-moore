@@ -11,6 +11,8 @@ newest entries at the top.
 
 ## Log
 
+| Date | Tool | Asked | Produced | What I did with it |
+| --- | --- | --- | --- | --- |
 | 2026-09-13 | Claude | Fixes per Adam's feedback | capabilities/README.md, docs/README.md, .md extension on the perfect-competition brief | Edits to Repository per Adam's feedback |
 
 <!-- Add new rows above this line, newest first. -->
