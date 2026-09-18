@@ -23,10 +23,18 @@ We will assume the yield and revenue per bed are constant for each crop regardle
 
 You can work a maximum of 720 total hours ($34.72/hr) and if more labor is needed, you can hire up to four temporary workers for $17.36/hr at a max of 1,440 hours each. We will exhaust your 720 labor hours first before hiring additional help. Lastly, the equation for calculating total labor hours for q beds of each crop is:
 
-Labor(q) = q*(hrs/wk/bed)*36*(1+dim)^q
+Labor(q) = q(hrs/wk/bed)36(1+dim)^q
 
 ## Hypothesis
-Because of the particularly low labor cost of carrots, and the low diminishing returns of mesclun, I hypothesize we will max both crops, meaning that marginal cost will not overtake marginal revenue before we plant 20 and 30 beds, respectively. That leaves 14 beds available for tomatoes. Revenue for tomatoes is 4.2x carrots and 3.2x mesclun, but labor is 3x carrots and 2x mesclun and diminishing returns is 4x carrots and 8x mesclun. In other words, costs are higher and also rise faster. The key to maximizing profit for the entire farm will be determined by how many beds of tomatoes we can plant before marginal cost overtakes marginal revenue. I predict that will happen at 11 beds; thus, 10 beds will be optimal. Therefore, I hypothesize that we will maximize profit at 20 beds carrots, 30 beds mesclun and 10 beds tomatoes.
+Because of the particularly low labor cost of carrots, and the low diminishing returns of mesclun, I hypothesize we will max both crops, meaning that marginal cost will not overtake marginal revenue before we plant 20 and 30 beds, respectively. That leaves 14 beds available for tomatoes. Revenue for tomatoes is 4.2x carrots and 3.2x mesclun, but labor is 3x carrots and 2x mesclun and diminishing returns is 4x carrots and 8x mesclun. In other words, costs are higher and also rise faster. The key to maximizing profit for the entire farm will be determined by how many beds of tomatoes we can plant before marginal cost overtakes marginal revenue. 
+
+| # of beds (q) | q(hrs/wk/bed)36(1+dim)^q | Marginal labor cost | Total cost (labor + fertilizer) |
+| --- | --- | --- | --- |
+| q = 9 | $1,909 | $6,363 | $7,243 |
+| q = 10 | $2,334 | $7,368 | $8,248 |
+| q = 11 | $2,824 | $8,510 | $9,390 |
+
+The table above shows that total bed cost crosses revenue ($8,800) from bed 10 to bed 11; therefore, I predict that 10 beds will be optimal. My full hypothesis is that we will maximize profit with 20 beds of carrots, 30 beds of mesclun and 10 beds of tomatoes.
 
 ## Falsifiers
 If the optimal number of tomato beds is less than 10, then the compounding effect on labor pushes marginal cost higher faster than I expected. If it’s more than 10, then it rises slower than expected, perhaps due to the lower wage of temp labor.
