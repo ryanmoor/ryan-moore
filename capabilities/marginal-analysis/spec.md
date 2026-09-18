@@ -1,3 +1,12 @@
+---
+type: spec
+capability: marginal-analysis
+engagement: perfect-competition
+date: 2026-09-17
+status: draft          # draft | built | audited
+built_with: "Claude Code, from this file"
+---
+
 # Marginal Analysis — Method Spec
 
 ## Purpose
