@@ -7,7 +7,9 @@ adapted per engagement.
 
 ## Engagements that exercised it
 
-<!-- PLACEHOLDER: list engagements here as they use this capability, e.g.
-     - [Engagement name](../../docs/briefs/...) — what was analyzed, what the model showed. -->
-
-_(none yet)_
+- [Perfect Competition](../../docs/briefs/perfect-competition-brief.md) — bed mix
+  across three crops (tomatoes, carrots, mesclun) under a 64-bed cap, tiered
+  labor cost, and diminishing returns per bed; `model.xlsx` rebuilt for a
+  Solver-based multi-product optimization (see `spec.md`'s per-engagement
+  adaptation section). Run Solver in Excel against the current file for the
+  answer — it is not yet solved in the committed workbook.

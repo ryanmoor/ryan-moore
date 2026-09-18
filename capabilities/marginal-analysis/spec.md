@@ -45,5 +45,73 @@ account, drop one more SKU) by isolating the revenue and cost that actually chan
 
 ## Per-engagement adaptation
 
-<!-- PLACEHOLDER: notes on how this method flexes per engagement — e.g. multi-product
-     mix, step-fixed costs, capacity constraints — added as real cases come up. -->
+**Perfect Competition** (multi-product mix, capacity constraints, Solver): `model.xlsx`
+was rebuilt for this engagement to choose beds of three crops (tomatoes, carrots,
+mesclun) rather than a single product's volume.
+
+- **Inputs** sheet: one row per crop (max beds, revenue/bed, labor hrs/wk/bed,
+  fertilizer cost/bed, diminishing-returns rate/bed), plus farm-wide scalars
+  (total bed cap, fixed costs, season length, own labor hours/rate, temp labor
+  worker count/hours/rate). Each cell keeps its own named range.
+- **Calc** sheet: beds per crop are the decision variables (Solver's "By
+  Changing Variable Cells"). Labor hours per crop follow
+  `Labor(q) = q * hrs/wk/bed * SeasonWeeks * (1 + diminishing-returns/bed)^q`;
+  labor cost is tiered (own hours exhausted first at the own rate, remainder
+  at the temp rate); profit (`Revenue - FixedCosts - FertilizerCost - LaborCost`)
+  is the objective. Constraint-check cells (total beds vs. cap, total labor
+  hours vs. capacity) sit below the objective for Solver to reference directly.
+- **Output** sheet: the exact Solver dialog configuration (objective cell,
+  changing cells, each constraint, integer requirement, recommended solving
+  method) plus live pass-through of the current Calc values — left as
+  starting values, not solved, so running Solver is the next step rather than
+  something this file has already done.
+- Because `Labor(q)` is exponential in `q` and the wage tiers are piecewise
+  (`MIN`/`MAX`), the objective is nonlinear and non-smooth; GRG Nonlinear can
+  land on a local optimum depending on the starting beds, so the Output sheet
+  recommends trying Evolutionary as a cross-check.
+
+## Spec template
+
+```
+# <Capability> — model specification
+
+## Purpose
+What decision this model supports, in two sentences. What it must be able to answer.
+
+## Inputs — the named contract
+| Name | Value | Unit | Source |
+|---|---|---|---|
+| `TOM_PRICE` | 8800 | USD per bed | Case scenario, crop table |
+| `TOM_HRS`   | 2.5  | hours per week per bed | Case scenario, crop table |
+
+Every input gets a name, a value, a unit, and a source. You choose the names.
+The requirement is that they exist and are used consistently below.
+
+## Structure
+Each sheet or region, and what it is for.
+
+## Calculation logic
+In named-range notation, never cell addresses:
+
+  LABOR_HRS(q) = q x HRS_PER_BED x WEEKS x (1 + DIM_PCT)^q
+
+"Column D times column E" is not a specification — it describes a spreadsheet
+that does not exist yet.
+
+## Conventions
+The rules that are not visible in the formulas: costing order, allocation basis,
+rounding, what happens at the boundaries. State all of them. A convention you
+leave out is a convention the builder invents.
+
+## Validation rules
+The conditions the finished artifact must satisfy — check figures as acceptance
+criteria, hand calculations, and structural rules ("every calculated cell
+contains a formula", "no error cells").
+
+## Outputs
+Each result the model reports, by name.
+
+## Audit findings
+Added AFTER the build. For each check: what you checked, what you found, what
+you did about it.
+```
