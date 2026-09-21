@@ -2,116 +2,156 @@
 type: spec
 capability: marginal-analysis
 engagement: perfect-competition
-date: 2026-09-17
-status: draft          # draft | built | audited
+date: 2026-09-20
+status: draft            # draft | built | audited
 built_with: "Claude Code, from this file"
 ---
 
-# Marginal Analysis — Method Spec
+# Marginal Analysis - model specification
 
 ## Purpose
 
-Answer "should we do this one more thing?" (make one more unit, take one more
-account, drop one more SKU) by isolating the revenue and cost that actually change
-— not fully-loaded averages.
+This model shows marginal cost for each additional bed of each crop, measured
+against the known revenue per bed of each crop. This allows us to answer the
+question, "Will planting this additional bed of this crop increase or
+decrease our profit?"
 
-## Model design (`model.xlsx`)
+## Inputs
 
-- **Inputs** sheet: the assumptions that vary by engagement (price, variable cost
-  per unit, fixed costs in scope, volume/units). Each assumption is a single cell
-  with a named range so formulas read as English, not cell coordinates.
-- **Calc** sheet: contribution margin per unit, contribution margin %, break-even
-  units/revenue, and a sensitivity table (e.g. margin at ± price/volume steps).
-- **Output** sheet (or top of Calc): the answer stated in one line, plus the
-  sensitivity table an audience can scan.
-
-## Named ranges (as shipped in the template)
-
-| Name | Cell | Meaning |
-| --- | --- | --- |
-| `Price` | Inputs!B2 | Selling price per unit |
-| `VariableCostPerUnit` | Inputs!B3 | Variable cost per unit |
-| `FixedCosts` | Inputs!B4 | Fixed costs in scope for this decision |
-| `Volume` | Inputs!B5 | Units under consideration |
-
-## Formula logic
-
-- `ContributionMarginPerUnit` = `Price - VariableCostPerUnit`
-- `ContributionMarginPct` = `ContributionMarginPerUnit / Price`
-- `BreakEvenUnits` = `FixedCosts / ContributionMarginPerUnit`
-- `BreakEvenRevenue` = `BreakEvenUnits * Price`
-- `TotalContributionAtVolume` = `ContributionMarginPerUnit * Volume`
-- `NetOfFixed` = `TotalContributionAtVolume - FixedCosts`
-
-## Per-engagement adaptation
-
-**Perfect Competition** (multi-product mix, capacity constraints, Solver): `model.xlsx`
-was rebuilt for this engagement to choose beds of three crops (tomatoes, carrots,
-mesclun) rather than a single product's volume.
-
-- **Inputs** sheet: one row per crop (max beds, revenue/bed, labor hrs/wk/bed,
-  fertilizer cost/bed, diminishing-returns rate/bed), plus farm-wide scalars
-  (total bed cap, fixed costs, season length, own labor hours/rate, temp labor
-  worker count/hours/rate). Each cell keeps its own named range.
-- **Calc** sheet: beds per crop are the decision variables (Solver's "By
-  Changing Variable Cells"). Labor hours per crop follow
-  `Labor(q) = q * hrs/wk/bed * SeasonWeeks * (1 + diminishing-returns/bed)^q`;
-  labor cost is tiered (own hours exhausted first at the own rate, remainder
-  at the temp rate); profit (`Revenue - FixedCosts - FertilizerCost - LaborCost`)
-  is the objective. Constraint-check cells (total beds vs. cap, total labor
-  hours vs. capacity) sit below the objective for Solver to reference directly.
-- **Output** sheet: the exact Solver dialog configuration (objective cell,
-  changing cells, each constraint, integer requirement, recommended solving
-  method) plus live pass-through of the current Calc values — left as
-  starting values, not solved, so running Solver is the next step rather than
-  something this file has already done.
-- Because `Labor(q)` is exponential in `q` and the wage tiers are piecewise
-  (`MIN`/`MAX`), the objective is nonlinear and non-smooth; GRG Nonlinear can
-  land on a local optimum depending on the starting beds, so the Output sheet
-  recommends trying Evolutionary as a cross-check.
-
-## Spec template
-
-```
-# <Capability> — model specification
-
-## Purpose
-What decision this model supports, in two sentences. What it must be able to answer.
-
-## Inputs — the named contract
 | Name | Value | Unit | Source |
-|---|---|---|---|
-| `TOM_PRICE` | 8800 | USD per bed | Case scenario, crop table |
-| `TOM_HRS`   | 2.5  | hours per week per bed | Case scenario, crop table |
-
-Every input gets a name, a value, a unit, and a source. You choose the names.
-The requirement is that they exist and are used consistently below.
+| --- | ---| --- | --- |
+| `RevenuePerBedTomatoes` | 8800 | USD per bed | Case scenario, crop table |
+| `LaborHrsPerBedTomatoes` | 2.5 | hrs per week per bed | Case scenario, crop table |
+| `RevenuePerBedCarrots` | 2094 | USD per bed | Case scenario, crop table |
+| `LaborHrsPerBedCarrots` | 0.833 | hrs per week per bed | Case scenario, crop table |
+| `RevenuePerBedMesclun` | 2700 | USD per bed | Case scenario, crop table |
+| `LaborHrsPerBedMesclun` | 1.25 | hrs per week per bed | Case scenario, crop table |
+| `MaxBedsTomatoes` | 20 | max beds tomatoes | Case scenario, crop table |
+| `MaxBedsCarrots` | 20 | max beds carrots | Case scenario, crop table |
+| `MaxBedsMesclun` | 30 | max beds mesclun | Case scenario, crop table |
+| `FertilizerPerBedTomatoes` | 880 | USD per bed | Case scenario, crop table |
+| `FertilizerPerBedCarrots` | 440 | USD per bed | Case scenario, crop table |
+| `FertilizerPerBedMesclun` | 880 | USD per bed | Case scenario, crop table |
+| `DimReturnsTomatoes` | 10 | percent per additional bed | Case scenario, crop table |
+| `DimReturnsCarrots` | 2.5 | percent per additional bed | Case scenario, crop table |
+| `DimReturnsMesclun` | 1.25 | percent per additional bed | Case scenario, crop table |
+| `SeasonWeeks` | 36 | weeks | Case scenario |
+| `FixedCosts` | 20000 | USD per season | Case scenario |
+| `TotalBedCap` | 64 | max beds all crops | Case scenario |
+| `OwnLaborHours` | 720 | farmer's max field hrs | Case scenario |
+| `OwnWageRate` | 34.72 | USD per hr | Case scenario |
+| `TempWorkerCount` | 4 | temp workers | Case scenario |
+| `TempHoursPerWorker` | 1440 | max field hrs per temp worker | Case scenario |
+| `TempWageRate` | 17.36 | USD per hr | Case scenario |
 
 ## Structure
-Each sheet or region, and what it is for.
+
+- **Inputs**: the crop table (one row per crop: max beds, revenue/bed, labor
+  hrs/wk/bed, fertilizer cost/bed, diminishing-returns rate/bed) and the
+  farm-wide scalars listed above.
+- **Calc**: `BedsTomatoes`/`BedsCarrots`/`BedsMesclun` (Solver's "By Changing
+  Variable Cells"), labor hours per crop, total labor hours, tiered labor
+  cost, revenue, fertilizer cost, total cost, `Profit` (the objective), and
+  the constraint-check cells (`TotalBedsPlanted`, `TotalLaborCapacity`) that
+  Solver's constraints reference directly.
+- **Output**: the exact Solver dialog configuration (objective cell,
+  changing cells, every constraint, integer requirement, recommended solving
+  method) plus a live pass-through of the current `Calc` values.
 
 ## Calculation logic
-In named-range notation, never cell addresses:
 
-  LABOR_HRS(q) = q x HRS_PER_BED x WEEKS x (1 + DIM_PCT)^q
+For each crop, in named-range notation:
 
-"Column D times column E" is not a specification — it describes a spreadsheet
-that does not exist yet.
+    LaborHoursTomatoes = BedsTomatoes * LaborHrsPerBedTomatoes * SeasonWeeks * (1 + DimReturnsTomatoes)^BedsTomatoes
+    LaborHoursCarrots  = BedsCarrots  * LaborHrsPerBedCarrots  * SeasonWeeks * (1 + DimReturnsCarrots)^BedsCarrots
+    LaborHoursMesclun  = BedsMesclun  * LaborHrsPerBedMesclun  * SeasonWeeks * (1 + DimReturnsMesclun)^BedsMesclun
+
+    TotalLaborHours    = LaborHoursTomatoes + LaborHoursCarrots + LaborHoursMesclun
+    OwnLaborHoursUsed   = MIN(TotalLaborHours, OwnLaborHours)
+    TempLaborHoursUsed  = MAX(TotalLaborHours - OwnLaborHours, 0)
+    TempLaborCapacity   = TempWorkerCount * TempHoursPerWorker
+    LaborCost           = OwnLaborHoursUsed * OwnWageRate + TempLaborHoursUsed * TempWageRate
+
+    Revenue        = BedsTomatoes*RevenuePerBedTomatoes + BedsCarrots*RevenuePerBedCarrots + BedsMesclun*RevenuePerBedMesclun
+    FertilizerCost = BedsTomatoes*FertilizerPerBedTomatoes + BedsCarrots*FertilizerPerBedCarrots + BedsMesclun*FertilizerPerBedMesclun
+    TotalCost      = FixedCosts + FertilizerCost + LaborCost
+    Profit         = Revenue - TotalCost
+
+    TotalBedsPlanted    = BedsTomatoes + BedsCarrots + BedsMesclun
+    TotalLaborCapacity  = OwnLaborHours + TempLaborCapacity
 
 ## Conventions
-The rules that are not visible in the formulas: costing order, allocation basis,
-rounding, what happens at the boundaries. State all of them. A convention you
-leave out is a convention the builder invents.
+
+- Own labor hours are exhausted before any temp hours are counted, and the
+  720-hour threshold applies to *total* labor across all three crops
+  combined, not per crop.
+- Beds are whole numbers and single-crop for the entire season — no partial
+  or split beds. Enforced as an integer constraint on the decision variables,
+  not just a stated assumption.
+- Fixed costs are incurred in full regardless of the mix, including the
+  all-zero mix — never prorated or waived below some bed count.
+- Revenue and fertilizer cost per bed are constant per bed regardless of mix
+  or bed count; only labor hours scale nonlinearly, via `Labor(q)`.
+- Hours beyond `TotalLaborCapacity` (`OwnLaborHours + TempLaborCapacity` =
+  6,480 hrs) are not modeled as a cost — they are infeasible. A hard
+  constraint keeps Solver from crossing that boundary rather than pricing it.
+- No rounding is applied internally; beds are integers by constraint, and
+  dollar figures carry full precision and are only rounded for display
+  (`$#,##0` formats).
+- At `q = 0` for any crop, `Labor(q) = 0` — the formula zeroes out on its own,
+  no special-case needed.
 
 ## Validation rules
-The conditions the finished artifact must satisfy — check figures as acceptance
-criteria, hand calculations, and structural rules ("every calculated cell
-contains a formula", "no error cells").
+
+- Every calculated cell on `Calc` and `Output` contains a formula referencing
+  named ranges, not a literal number or a raw cell address — except the three
+  decision-variable cells (`BedsTomatoes`, `BedsCarrots`, `BedsMesclun`),
+  which are Solver's inputs.
+- No error cells (`#REF!`, `#DIV/0!`, `#VALUE!`) at the starting values (all
+  beds at 0) or at any feasible integer point inside the constraints.
+- Hand check: at 0/0/0 beds, `Profit = -FixedCosts = -$20,000`.
+- Hand check: at 10/20/30 beds (Tomatoes/Carrots/Mesclun), `TotalLaborHours`
+  ≈ 5,276.8 hrs (inside `TotalLaborCapacity`) and `Profit` ≈ $42,775 —
+  confirmed against an independent script outside the workbook, not against
+  a Solver run.
+- `TotalBedsPlanted` must never exceed `TotalBedCap` (64) at any point Solver
+  evaluates; each crop's beds must never exceed its own `MaxBeds`.
+- `TotalLaborHours` must never exceed `TotalLaborCapacity` (6,480 hrs) at any
+  point Solver evaluates.
+- The three decision-variable cells must be constrained to integer and ≥ 0
+  in the Solver model itself, not left to convention.
 
 ## Outputs
-Each result the model reports, by name.
+
+- `Profit` — the objective Solver maximizes.
+- `BedsTomatoes`, `BedsCarrots`, `BedsMesclun` — the decision.
+- `TotalBedsPlanted`, `TotalLaborHours` — feasibility checks against the bed
+  cap and labor capacity.
+- `Revenue`, `FertilizerCost`, `LaborCost`, `TotalCost` — the profit
+  breakdown.
+- `Output` restates all of the above and states the Solver dialog
+  configuration needed to solve for them.
 
 ## Audit findings
-Added AFTER the build. For each check: what you checked, what you found, what
-you did about it.
-```
+
+- **Checked**: an independent Python replica of the `Calc` formulas
+  (`Labor(q)`, the tiered wage split, `Profit`) evaluated at four sample bed
+  combinations (0/0/0, 10/20/30, 20/20/30, 14/20/30).
+  **Found**: internally consistent — the all-zero case matches `-FixedCosts`
+  exactly; feasible mixes produce positive profit; 20/20/30 (70 beds, over
+  the 64-bed cap) produces a large negative profit, driven by the
+  diminishing-returns term compounding on the extra tomato beds, as expected.
+  **Did**: no change needed; used as the formula-correctness check ahead of
+  running Solver, since the workbook is not yet solved.
+- **Checked**: whether the workbook recalculates cleanly outside Excel
+  (LibreOffice headless), as an availability check before Solver setup.
+  **Found**: LibreOffice headless failed to load and convert both this
+  workbook and the single-product template it replaced, so the failure is
+  environment-specific, not caused by this build.
+  **Did**: flagged to the user; recommend opening the `.xlsx` directly in
+  Excel with the Solver add-in enabled to confirm before relying on it, since
+  that has not been independently verified here.
+- **Checked**: named-range coverage across every formula cell on `Calc`.
+  **Found**: consistent with the Inputs table above — no formula references
+  a raw cell address, and no named range is unused.
+  **Did**: no change needed.
