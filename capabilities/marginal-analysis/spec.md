@@ -23,7 +23,7 @@ decrease our profit?"
 | `RevenuePerBedTomatoes` | 8800 | USD per bed | Case scenario, crop table |
 | `LaborHrsPerBedTomatoes` | 2.5 | hrs per week per bed | Case scenario, crop table |
 | `RevenuePerBedCarrots` | 2094 | USD per bed | Case scenario, crop table |
-| `LaborHrsPerBedCarrots` | 2.5/3 | hrs per week per bed | Case scenario, crop table |
+| `LaborHrsPerBedCarrots` | LaborHrsPerBedTomatoes/3 | hrs per week per bed | Derived: 2.5/3 |
 | `RevenuePerBedMesclun` | 2700 | USD per bed | Case scenario, crop table |
 | `LaborHrsPerBedMesclun` | 1.25 | hrs per week per bed | Case scenario, crop table |
 | `MaxBedsTomatoes` | 20 | max beds tomatoes | Case scenario, crop table |
@@ -39,10 +39,11 @@ decrease our profit?"
 | `FixedCosts` | 20000 | USD per season | Case scenario |
 | `TotalBedCap` | 64 | max beds all crops | Case scenario |
 | `OwnLaborHours` | 720 | farmer's max field hrs | Case scenario |
-| `OwnWageRate` | 34.72 | USD per hr | Case scenario |
+| `Salary` | 25000 | USD per season | Case scenario |
+| `OwnWageRate` | Salary/OwnLaborHours | USD per hr | Derived: 25000/720 |
 | `TempWorkerCount` | 4 | temp workers | Case scenario |
 | `TempHoursPerWorker` | 1440 | max field hrs per temp worker | Case scenario |
-| `TempWageRate` | 17.36 | USD per hr | Case scenario |
+| `TempWageRate` | Salary/TempHoursPerWorker | USD per hr | Derived: 25000/1440 |
 
 ## Structure
 
