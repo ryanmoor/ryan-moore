@@ -18,7 +18,7 @@ We will assume the yield and revenue per bed are constant for each crop regardle
 | Crop | Max beds | Revenue/bed | Labor hrs/wk/bed | Fertilizer cost/bed | Diminishing returns/bed |
 | --- | --- | --- | --- | --- | --- |
 | Tomatoes | 20 | $8,800 | 2.50 | $880 | 10.00% |
-| Carrots | 20 | $2,094 | 0.833 | $440 | 2.50% |
+| Carrots | 20 | $2,094 | 2.5/3 | $440 | 2.50% |
 | Mesclun | 30 | $2,700 | 1.25 | $880 | 1.25% |
 
 You can work a maximum of 720 total hours ($34.72/hr) and if more labor is needed, you can hire up to four temporary workers for $17.36/hr at a max of 1,440 hours each. We will exhaust your 720 labor hours first before hiring additional help. Lastly, the equation for calculating total labor hours for q beds of each crop is:
