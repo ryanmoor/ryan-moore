@@ -23,7 +23,7 @@ decrease our profit?"
 | `RevenuePerBedTomatoes` | 8800 | USD per bed | Case scenario, crop table |
 | `LaborHrsPerBedTomatoes` | 2.5 | hrs per week per bed | Case scenario, crop table |
 | `RevenuePerBedCarrots` | 2094 | USD per bed | Case scenario, crop table |
-| `LaborHrsPerBedCarrots` | 0.833 | hrs per week per bed | Case scenario, crop table |
+| `LaborHrsPerBedCarrots` | 2.5/3 | hrs per week per bed | Case scenario, crop table |
 | `RevenuePerBedMesclun` | 2700 | USD per bed | Case scenario, crop table |
 | `LaborHrsPerBedMesclun` | 1.25 | hrs per week per bed | Case scenario, crop table |
 | `MaxBedsTomatoes` | 20 | max beds tomatoes | Case scenario, crop table |
@@ -109,6 +109,7 @@ For each crop, in named-range notation:
   which are Solver's inputs.
 - No error cells (`#REF!`, `#DIV/0!`, `#VALUE!`) at the starting values (all
   beds at 0) or at any feasible integer point inside the constraints.
+  Hand check: `BedsTomatoes`=1, 1 * 2.5 * 36 * 1.1 = `LaborHoursTomatoes` = 99 hours
 - Hand check: at 0/0/0 beds, `Profit = -FixedCosts = -$20,000`.
 - Hand check: at 10/20/30 beds (Tomatoes/Carrots/Mesclun), `TotalLaborHours`
   ≈ 5,276.8 hrs (inside `TotalLaborCapacity`) and `Profit` ≈ $42,775 —
