@@ -32,9 +32,9 @@ decrease our profit?"
 | `FertilizerPerBedTomatoes` | 880 | USD per bed | Case scenario, crop table |
 | `FertilizerPerBedCarrots` | 440 | USD per bed | Case scenario, crop table |
 | `FertilizerPerBedMesclun` | 880 | USD per bed | Case scenario, crop table |
-| `DimReturnsTomatoes` | 10 | percent per additional bed | Case scenario, crop table |
-| `DimReturnsCarrots` | 2.5 | percent per additional bed | Case scenario, crop table |
-| `DimReturnsMesclun` | 1.25 | percent per additional bed | Case scenario, crop table |
+| `DimReturnsTomatoes` | 0.10 | decimal fraction per additional bed (0.10 = 10%) | Case scenario, crop table |
+| `DimReturnsCarrots` | 0.025 | decimal fraction per additional bed (0.025 = 2.5%) | Case scenario, crop table |
+| `DimReturnsMesclun` | 0.0125 | decimal fraction per additional bed (0.0125 = 1.25%) | Case scenario, crop table |
 | `SeasonWeeks` | 36 | weeks | Case scenario |
 | `FixedCosts` | 20000 | USD per season | Case scenario |
 | `TotalBedCap` | 64 | max beds all crops | Case scenario |
@@ -99,6 +99,11 @@ For each crop, in named-range notation:
 - No rounding is applied internally; beds are integers by constraint, and
   dollar figures carry full precision and are only rounded for display
   (`$#,##0` formats).
+- Diminishing-returns rates are stored as decimal fractions (`0.10`, not
+  `10`) because the labor formula uses them directly in `(1 + rate)^q`. On
+  `Inputs` they display as percentages (`0.00%` format), so the cell shows
+  `10.00%` but holds `0.1`. Entering `10` would compute `(1 + 10)^q`, which is
+  `11^q` rather than `1.1^q`.
 - At `q = 0` for any crop, `Labor(q) = 0` — the formula zeroes out on its own,
   no special-case needed.
 
