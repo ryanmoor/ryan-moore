@@ -47,3 +47,7 @@ tell me rather than committing it.
 
 ## Mistakes to avoid (append to this list)
 Record errors here as they happen, so the same one does not repeat.
+- 2026-09-25: Claude wrote its own commit messages for two commits to
+  `capabilities/marginal-analysis/model.xlsx` instead of prompting me, contrary
+  to "Commits" above. Always ask me for the commit message before committing,
+  even for a plain file replacement.
