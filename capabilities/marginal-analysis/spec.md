@@ -141,13 +141,29 @@ For each crop, in named-range notation:
 
 ## Audit findings
 
-  | Checked (sample bed combination) | Found (Profit returned by Solver) | What It Means |
-  | --- | --- | --- |
-  | 0/0/0 | -$20,000 | Negative profit from planting no beds equals fixed cost; demonstrates that our Solver inputs must be correct |
-  | 10/20/30 | $42,761.66 | Our target maximized profit |
-  | 20/0/0 | -84,334.37 | High negative profit from max tomatoes only; demonstrates runaway compounding marginal cost that has far surpassed revenue |
-  
+  | Start T/C/M | Profit from starting combination | End T/C/M from Solver | What It Means |
+  | --- | --- | --- | --- |
+  | 10/20/30 | $42,761.66 | 10/20/30 | Confirms our target maximized profit |
+  | 0/0/0 | -$20,000 | 10/20/30 | Negative profit from planting zero beds equals fixed costs; Solver confirmed optimal T/C/M |
+  | 20/0/0 | -84,334.37 | 10/20/30 | High negative profit from max tomatoes only; demonstrates runaway compounding marginal cost that has far surpassed revenue; also this combination requires 12,109.5 hours of labor, which surpasses the limit of 6,480 allowed by the model. |
+
 - **Checked**: named-range coverage across every formula cell on `Calc`.
   **Found**: consistent with the Inputs table above — no formula references
   a raw cell address, and no named range is unused.
   **Did**: no change needed.
+
+  Finding #1: Solver's result on the saved model
+- **Checked**: the Solver model saved on `Calc` (maximize `Profit`, seven constraints, whole-number beds ≥ 0) and the solution saved in the workbook.
+  **Found**: 10 / 20 / 30 beds, `Profit` $42,761.66, `TotalLaborHours` 5,277.22 of 6,480 hours available, 60 of 64 beds. That meets the acceptance rule.
+  **Did**: Confirmed hypothesis of 10/20/30 optimal bed mix.
+
+  Finding #2: The second two additional starting points
+- **Checked**: Solver started from 0/0/0 and 20/0/0
+  **Found**: See table above for `Profit` and Solver result for each combination
+  **Did**: Confirmed 10/20/30 optimal bed mix.
+
+  Finding #3
+- **Checked**: the full search, which scored every whole-bed mix with an independent script.
+  **Found**: 10/20/30 is the single best of 9,726 allowed mixes. Carrots (20) and mesclun (30) are at their maximum bed counts. Tomatoes stop at 10: a 9th→10th
+  tomato bed adds profit, but the 11th loses $590.72 compared with 10/20/30. Four beds and about 1,203 labor hours go unused.
+  **Did**: The last four beds stay empty because if planted, compounding marginal labor would surpass marginal revenue, thereby decreasing overall profit. This confirms our hypothesis of 10 tomato beds with Carrots and Mesclun at their max. 
