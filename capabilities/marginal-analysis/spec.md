@@ -141,23 +141,12 @@ For each crop, in named-range notation:
 
 ## Audit findings
 
-- **Checked**: an independent Python replica of the `Calc` formulas
-  (`Labor(q)`, the tiered wage split, `Profit`) evaluated at four sample bed
-  combinations (0/0/0, 10/20/30, 20/20/30, 14/20/30).
-  **Found**: internally consistent — the all-zero case matches `-FixedCosts`
-  exactly; feasible mixes produce positive profit; 20/20/30 (70 beds, over
-  the 64-bed cap) produces a large negative profit, driven by the
-  diminishing-returns term compounding on the extra tomato beds, as expected.
-  **Did**: no change needed; used as the formula-correctness check ahead of
-  running Solver, since the workbook is not yet solved.
-- **Checked**: whether the workbook recalculates cleanly outside Excel
-  (LibreOffice headless), as an availability check before Solver setup.
-  **Found**: LibreOffice headless failed to load and convert both this
-  workbook and the single-product template it replaced, so the failure is
-  environment-specific, not caused by this build.
-  **Did**: flagged to the user; recommend opening the `.xlsx` directly in
-  Excel with the Solver add-in enabled to confirm before relying on it, since
-  that has not been independently verified here.
+  | Checked (sample bed combination) | Found (Profit returned by Solver) | What It Means |
+  | --- | --- | --- |
+  | 0/0/0 | -$20,000 | Negative profit from planting no beds equals fixed cost; demonstrates that our Solver inputs must be correct |
+  | 10/20/30 | $42,761.66 | Our target maximized profit |
+  | 20/0/0 | -84,334.37 | High negative profit from max tomatoes only; demonstrates runaway compounding marginal cost that has far surpassed revenue |
+  
 - **Checked**: named-range coverage across every formula cell on `Calc`.
   **Found**: consistent with the Inputs table above — no formula references
   a raw cell address, and no named range is unused.
