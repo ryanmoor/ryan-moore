@@ -10,6 +10,6 @@ adapted per engagement.
 - [Perfect Competition](../../docs/briefs/perfect-competition-brief.md) — bed mix
   across three crops (tomatoes, carrots, mesclun) under a 64-bed cap, tiered
   labor cost, and diminishing returns per bed; `model.xlsx` rebuilt for a
-  Solver-based multi-product optimization (see `spec.md`'s per-engagement
-  adaptation section). Run Solver in Excel against the current file for the
-  answer — it is not yet solved in the committed workbook.
+  Solver-based multi-product optimization (see `spec.md`). The committed
+  workbook is solved at 10 / 20 / 30 (Tomatoes / Carrots / Mesclun) beds, with
+  its Solver model saved on `Calc`.

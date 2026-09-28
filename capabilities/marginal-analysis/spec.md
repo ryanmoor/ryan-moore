@@ -117,10 +117,10 @@ For each crop, in named-range notation:
   beds at 0) or at any feasible integer point inside the constraints.
   Hand check: `BedsTomatoes`=1, 1 * 2.5 * 36 * 1.1 = `LaborHoursTomatoes` = 99 hours
 - Hand check: at 0/0/0 beds, `Profit = -FixedCosts = -$20,000`.
-- Hand check: at 10/20/30 beds (Tomatoes/Carrots/Mesclun), `TotalLaborHours`
-  ≈ 5,276.8 hrs (inside `TotalLaborCapacity`) and `Profit` ≈ $42,775 —
-  confirmed against an independent script outside the workbook, not against
-  a Solver run.
+- Acceptance: at 10/20/30 beds (Tomatoes/Carrots/Mesclun), `Profit` =
+  $42,761.66 ± $0.01 and `TotalLaborHours` = 5,277.22 ± 0.01 hrs (inside
+  `TotalLaborCapacity`). The same values come from Solver's saved solution in
+  the workbook and from an independent script outside it.
 - `TotalBedsPlanted` must never exceed `TotalBedCap` (64) at any point Solver
   evaluates; each crop's beds must never exceed its own `MaxBeds`.
 - `TotalLaborHours` must never exceed `TotalLaborCapacity` (6,480 hrs) at any
@@ -149,7 +149,7 @@ For each crop, in named-range notation:
   the 64-bed cap) produces a large negative profit, driven by the
   diminishing-returns term compounding on the extra tomato beds, as expected.
   **Did**: no change needed; used as the formula-correctness check ahead of
-  running Solver, since the workbook is not yet solved.
+  running Solver. The workbook has since been solved at 10/20/30.
 - **Checked**: whether the workbook recalculates cleanly outside Excel
   (LibreOffice headless), as an availability check before Solver setup.
   **Found**: LibreOffice headless failed to load and convert both this
