@@ -58,6 +58,14 @@ decrease our profit?"
 - **Output**: the exact Solver dialog configuration (objective cell,
   changing cells, every constraint, integer requirement, recommended solving
   method) plus a live pass-through of the current `Calc` values.
+- **MC Schedule**: one block per crop (Tomatoes rows 7–29, Carrots 32–54,
+  Mesclun 57–89), one row per bed count from `q = 0` to that crop's
+  `MaxBeds`, with the crop planted alone (standalone curve). Columns: Beds
+  (q), Labor hours, Labor cost, Fertilizer cost, Variable cost, MC, AVC,
+  Price, Price − MC, Standalone profit. Three line charts to the right (MC,
+  AVC and Price against q, one per crop) read directly from these cells.
+  Independent of the `Calc` decision cells — changing the bed mix or
+  re-running Solver does not move it; changing `Inputs` does.
 
 ## Calculation logic
 
@@ -80,6 +88,17 @@ For each crop, in named-range notation:
 
     TotalBedsPlanted    = BedsTomatoes + BedsCarrots + BedsMesclun
     TotalLaborCapacity  = OwnLaborHours + TempLaborCapacity
+
+`MC Schedule`, for each crop and each bed count `q` (one row per `q`):
+
+    LaborHours(q)    = q * LaborHrsPerBed<Crop> * SeasonWeeks * (1 + DimReturns<Crop>)^q
+    LaborCost(q)     = MIN(LaborHours(q), OwnLaborHours) * OwnWageRate + MAX(LaborHours(q) - OwnLaborHours, 0) * TempWageRate
+    VariableCost(q)  = LaborCost(q) + q * FertilizerPerBed<Crop>
+    MC(q)            = VariableCost(q) - VariableCost(q - 1)        (blank at q = 0)
+    AVC(q)           = VariableCost(q) / q                          (blank at q = 0)
+    Price            = RevenuePerBed<Crop>
+    Price - MC(q)                                                   (blank at q = 0)
+    StandaloneProfit(q) = q * Price - VariableCost(q) - FixedCosts
 
 ## Conventions
 
@@ -106,6 +125,15 @@ For each crop, in named-range notation:
   `11^q` rather than `1.1^q`.
 - At `q = 0` for any crop, `Labor(q) = 0` — the formula zeroes out on its own,
   no special-case needed.
+- `MC Schedule` is a standalone curve: each crop is assumed to use all of
+  `OwnLaborHours` before any temp hours, as if it were the only crop. That
+  is what produces the MC dip where a crop's own hours run out (tomatoes
+  between bed 5 and bed 6). In the solved mix, labor is pooled across crops
+  and `TotalLaborHours` is far past `OwnLaborHours`, so every marginal hour
+  is paid at `TempWageRate`. For a crop's rows past its own 720-hour point
+  the standalone MC equals the in-mix MC; below that point it does not.
+- `MC Schedule` has a fixed number of rows per crop, sized to the current
+  `MaxBeds` (20 / 20 / 30). Raising a cap on `Inputs` does not add rows.
 
 ## Validation rules
 
@@ -113,6 +141,16 @@ For each crop, in named-range notation:
   named ranges, not a literal number or a raw cell address — except the three
   decision-variable cells (`BedsTomatoes`, `BedsCarrots`, `BedsMesclun`),
   which are Solver's inputs.
+- Every calculated cell on `MC Schedule` references named ranges for inputs.
+  The only raw cell addresses are same-block references to the row's own
+  `q` and to the previous row's variable cost (for MC) — a schedule cannot
+  be built without them. The `q` column holds literal integers by design.
+- Acceptance (`MC Schedule`): tomato MC = $8,248.59 at q = 10 and
+  $9,390.72 at q = 11; tomato standalone profit at q = 20 = −$84,334.37
+  (equal to the 20/0/0 Solver start in Audit findings); carrot Price − MC
+  at q = 20 = $405.05; mesclun Price − MC at q = 30 = $279.90. The carrot
+  and mesclun figures equal the profit lost by dropping one bed from
+  10/20/30 (to 10/19/30 and 10/20/29).
 - No error cells (`#REF!`, `#DIV/0!`, `#VALUE!`) at the starting values (all
   beds at 0) or at any feasible integer point inside the constraints.
   Hand check: `BedsTomatoes`=1, 1 * 2.5 * 36 * 1.1 = `LaborHoursTomatoes` = 99 hours
@@ -138,6 +176,8 @@ For each crop, in named-range notation:
   breakdown.
 - `Output` restates all of the above and states the Solver dialog
   configuration needed to solve for them.
+- `MC Schedule` — MC, AVC, Price − MC and standalone profit per bed for each
+  crop, plus the three MC-vs-price charts.
 
 ## Audit findings
 
@@ -167,3 +207,15 @@ For each crop, in named-range notation:
   **Found**: 10/20/30 is the single best of 9,726 allowed mixes. Carrots (20) and mesclun (30) are at their maximum bed counts. Tomatoes stop at 10: a 9th→10th
   tomato bed adds profit, but the 11th loses $590.72 compared with 10/20/30. Four beds and about 1,203 labor hours go unused.
   **Did**: The last four beds stay empty because if planted, compounding marginal labor would surpass marginal revenue, thereby decreasing overall profit. This confirms our hypothesis of 10 tomato beds with Carrots and Mesclun at their max. 
+
+  Finding #4: `MC Schedule` sheet
+- **Checked**: every formula on the new `MC Schedule` sheet, recalculated
+  outside Excel with the Python `formulas` engine (LibreOffice headless still
+  fails to load the workbook), against the independent script.
+  **Found**: no error cells; tomato MC $8,248.59 (q = 10) and $9,390.72
+  (q = 11); tomato MC drops from $7,660.86 (q = 5) to $4,906.28 (q = 6);
+  carrot Price − MC $405.05 at q = 20; mesclun Price − MC $279.90 at q = 30;
+  tomato standalone profit at q = 20 −$84,334.37, matching the 20/0/0 row
+  above. All match the script.
+  **Did**: added the sheet and three charts. Not yet opened in Excel, so the
+  charts have not been checked visually.

@@ -12,4 +12,5 @@ adapted per engagement.
   labor cost, and diminishing returns per bed; `model.xlsx` rebuilt for a
   Solver-based multi-product optimization (see `spec.md`). The committed
   workbook is solved at 10 / 20 / 30 (Tomatoes / Carrots / Mesclun) beds, with
-  its Solver model saved on `Calc`.
+  its Solver model saved on `Calc`. The `MC Schedule` sheet adds per-bed MC,
+  AVC and price for each crop, with MC-vs-price charts.
