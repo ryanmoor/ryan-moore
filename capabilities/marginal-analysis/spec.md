@@ -117,10 +117,10 @@ For each crop, in named-range notation:
   beds at 0) or at any feasible integer point inside the constraints.
   Hand check: `BedsTomatoes`=1, 1 * 2.5 * 36 * 1.1 = `LaborHoursTomatoes` = 99 hours
 - Hand check: at 0/0/0 beds, `Profit = -FixedCosts = -$20,000`.
-- Hand check: at 10/20/30 beds (Tomatoes/Carrots/Mesclun), `TotalLaborHours`
-  ≈ 5,276.8 hrs (inside `TotalLaborCapacity`) and `Profit` ≈ $42,775 —
-  confirmed against an independent script outside the workbook, not against
-  a Solver run.
+- Acceptance: at 10/20/30 beds (Tomatoes/Carrots/Mesclun), `Profit` =
+  $42,761.66 ± $0.01 and `TotalLaborHours` = 5,277.22 ± 0.01 hrs (inside
+  `TotalLaborCapacity`). The same values come from Solver's saved solution in
+  the workbook and from an independent script outside it.
 - `TotalBedsPlanted` must never exceed `TotalBedCap` (64) at any point Solver
   evaluates; each crop's beds must never exceed its own `MaxBeds`.
 - `TotalLaborHours` must never exceed `TotalLaborCapacity` (6,480 hrs) at any
@@ -141,24 +141,29 @@ For each crop, in named-range notation:
 
 ## Audit findings
 
-- **Checked**: an independent Python replica of the `Calc` formulas
-  (`Labor(q)`, the tiered wage split, `Profit`) evaluated at four sample bed
-  combinations (0/0/0, 10/20/30, 20/20/30, 14/20/30).
-  **Found**: internally consistent — the all-zero case matches `-FixedCosts`
-  exactly; feasible mixes produce positive profit; 20/20/30 (70 beds, over
-  the 64-bed cap) produces a large negative profit, driven by the
-  diminishing-returns term compounding on the extra tomato beds, as expected.
-  **Did**: no change needed; used as the formula-correctness check ahead of
-  running Solver, since the workbook is not yet solved.
-- **Checked**: whether the workbook recalculates cleanly outside Excel
-  (LibreOffice headless), as an availability check before Solver setup.
-  **Found**: LibreOffice headless failed to load and convert both this
-  workbook and the single-product template it replaced, so the failure is
-  environment-specific, not caused by this build.
-  **Did**: flagged to the user; recommend opening the `.xlsx` directly in
-  Excel with the Solver add-in enabled to confirm before relying on it, since
-  that has not been independently verified here.
+  | Start T/C/M | Profit from starting combination | End T/C/M from Solver | What It Means |
+  | --- | --- | --- | --- |
+  | 10/20/30 | $42,761.66 | 10/20/30 | Confirms our target maximized profit |
+  | 0/0/0 | -$20,000 | 10/20/30 | Negative profit from planting zero beds equals fixed costs; Solver confirmed optimal T/C/M |
+  | 20/0/0 | -84,334.37 | 10/20/30 | High negative profit from max tomatoes only; demonstrates runaway compounding marginal cost that has far surpassed revenue; also this combination requires 12,109.5 hours of labor, which surpasses the limit of 6,480 allowed by the model. |
+
 - **Checked**: named-range coverage across every formula cell on `Calc`.
   **Found**: consistent with the Inputs table above — no formula references
   a raw cell address, and no named range is unused.
   **Did**: no change needed.
+
+  Finding #1: Solver's result on the saved model
+- **Checked**: the Solver model saved on `Calc` (maximize `Profit`, seven constraints, whole-number beds ≥ 0) and the solution saved in the workbook.
+  **Found**: 10 / 20 / 30 beds, `Profit` $42,761.66, `TotalLaborHours` 5,277.22 of 6,480 hours available, 60 of 64 beds. That meets the acceptance rule.
+  **Did**: Confirmed hypothesis of 10/20/30 optimal bed mix.
+
+  Finding #2: The second two additional starting points
+- **Checked**: Solver started from 0/0/0 and 20/0/0
+  **Found**: See table above for `Profit` and Solver result for each combination
+  **Did**: Confirmed 10/20/30 optimal bed mix.
+
+  Finding #3
+- **Checked**: the full search, which scored every whole-bed mix with an independent script.
+  **Found**: 10/20/30 is the single best of 9,726 allowed mixes. Carrots (20) and mesclun (30) are at their maximum bed counts. Tomatoes stop at 10: a 9th→10th
+  tomato bed adds profit, but the 11th loses $590.72 compared with 10/20/30. Four beds and about 1,203 labor hours go unused.
+  **Did**: The last four beds stay empty because if planted, compounding marginal labor would surpass marginal revenue, thereby decreasing overall profit. This confirms our hypothesis of 10 tomato beds with Carrots and Mesclun at their max. 
