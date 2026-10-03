@@ -120,8 +120,8 @@ For each crop, in named-range notation:
   (`$#,##0` formats).
 - Diminishing-returns rates are stored as decimal fractions (`0.10`, not
   `10`) because the labor formula uses them directly in `(1 + rate)^q`. On
-  `Inputs` they display as percentages (`0.00%` format), so the cell shows
-  `10.00%` but holds `0.1`. Entering `10` would compute `(1 + 10)^q`, which is
+  `Inputs` they display as decimals to four places, so the cell shows
+  `0.1000` and holds `0.1`. Entering `10` would compute `(1 + 10)^q`, which is
   `11^q` rather than `1.1^q`.
 - At `q = 0` for any crop, `Labor(q) = 0` — the formula zeroes out on its own,
   no special-case needed.
@@ -217,5 +217,7 @@ For each crop, in named-range notation:
   carrot Price − MC $405.05 at q = 20; mesclun Price − MC $279.90 at q = 30;
   tomato standalone profit at q = 20 −$84,334.37, matching the 20/0/0 row
   above. All match the script.
-  **Did**: added the sheet and three charts. Not yet opened in Excel, so the
-  charts have not been checked visually.
+  **Did**: added the sheet and three charts. In the first build the chart
+  and axis titles overlapped the axis numbers; rebuilt the charts with titles
+  set outside the plot area and the bed-count axis at the bottom. The fixed
+  charts were checked visually in Excel.
