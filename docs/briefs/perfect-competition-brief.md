@@ -30,9 +30,9 @@ Because of the particularly low labor cost of carrots, and the low diminishing r
 
 | # of beds (q) | q(hrs/wk/bed)36(1+dim)^q | Marginal labor cost | Total cost (labor + fertilizer) |
 | --- | --- | --- | --- |
-| q = 9 | $1,909 | $6,363 | $7,243 |
-| q = 10 | $2,334 | $7,368 | $8,248 |
-| q = 11 | $2,824 | $8,510 | $9,390 |
+| q = 9 | 1,909 | $6,363 | $7,243 |
+| q = 10 | 2,334 | $7,368 | $8,248 |
+| q = 11 | 2,824 | $8,510 | $9,390 |
 
 The table above shows that total bed cost crosses revenue ($8,800) from bed 10 to bed 11; therefore, I predict that 10 beds will be optimal. My full hypothesis is that we will maximize profit with 20 beds of carrots, 30 beds of mesclun and 10 beds of tomatoes.
 
