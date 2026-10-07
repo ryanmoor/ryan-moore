@@ -27,3 +27,11 @@ newest entries at the top.
 <!-- Add new rows above this line, newest first. -->
 
 ## Reflection
+
+Throughout this project, AI helped guide and refine my thinking. It created most of the skeleton in github, it created the tables, figures and instructions for Solver in excel, and offered suggestions after reviewing the feedback for each stage. In the first stage of the project (the brief) I did all the calculations myself, particularly using the formula for labor(q) and expanding that to marginal cost and price - MC, and when AI would suggest numbers later on (e.g. shadow prices), I knew how to verify them relatively quickly.
+
+I didn’t check every figure in the tables, because I assume it can repeat the same formula over and over replacing a single value, and the main reference points I was using frequently (e.g. tomato beds 9-11, etc.) were correct to the dollar. However, it proved better to verify the exact value of each important calculation individually using source data, rather than verifying outputs against each other.
+
+One thing that needed to be corrected were the hourly wages and the labor hours per bed, which had been rounded rather than derived from simple calculations. It might seem like this wouldn’t have mattered as long as they were carried out to several decimal places, but they did cause the downstream cost and profit calculations to drift. This wasn’t AI’s mistake; it was caused by my using the data as written in the initial case table.
+
+AI did initially misidentify the shadow prices of the first beds beyond the caps, but it caught and corrected this on its own.
