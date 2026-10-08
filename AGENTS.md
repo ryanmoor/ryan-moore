@@ -41,6 +41,7 @@ for, suggest the additional work; do not do it without asking.
 
 ## Commits
 Prompt me to write the commit message every time.
+Exception: merge commits for pull requests use GitHub's default message; do not ask.
 
 ## Never include
 No credentials, no API keys, no personal data about anyone, no licensed or
