@@ -1,20 +1,19 @@
 ---
 type: spec
-capability: aggregation-theory
-engagement: aggregation-theory
-date: 2026-10-07
+capability: economic-research
+engagement: research-paper
+date: 2026-10-09
 status: draft            # draft | built | audited
 built_with: "Claude Code, from this file"
 ---
 
-# Aggregation Theory - model specification
+# Economic Research — model specification
 
 ## Purpose
 
-## Inputs
-
+## Inputs — the named contract
 | Name | Value | Unit | Source |
-| --- | --- | --- | --- |
+|---|---|---|---|
 
 ## Structure
 

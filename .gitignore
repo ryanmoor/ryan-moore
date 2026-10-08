@@ -30,3 +30,6 @@ BIO.md
 *.pem
 secrets/
 private/
+
+# Throwaway work, kept private
+scratch/

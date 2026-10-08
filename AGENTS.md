@@ -10,6 +10,8 @@ Canonical file: AGENTS.md. CLAUDE.md points here.
 - docs/decisions/       written AFTER work: recommendations
 - analysis/             findings and figures
 - data/                 sourced inputs, with provenance
+- drafts/               dated paper drafts, one per working session
+- scratch/              ignored throwaway work; never committed
 
 ## Naming
 - Always prompt me to review directory and file names before creating; do not choose for me.
