@@ -3,8 +3,8 @@
 Charts `Fig1a` and `Fig1b` from
 [`capabilities/economic-research/model.xlsx`](../../capabilities/economic-research/model.xlsx),
 built per [`spec.md`](../../capabilities/economic-research/spec.md) from
-[`data/kill-zone.md`](../../data/kill-zone.md). Each image is the chart saved
-as a picture from Excel.
+[`data/kill-zone.md`](../../data/kill-zone.md). Each image is a screenshot
+of the chart in Excel, with the source line below it.
 
 ## Figure 1a: Number of deals, 2001–2019
 
