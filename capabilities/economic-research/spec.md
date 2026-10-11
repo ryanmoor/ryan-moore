@@ -10,6 +10,7 @@ built_with: "Claude Code, from this file"
 # Economic Research — model specification
 
 ## Purpose
+These graphs, re-created from Kamepalli et al. (2022) pg 34, Figures 1a and 1b, show the number of early-stage social media startups funded by venture capital, and total venture capital investment dollars going to early-stage financing between 2001 and 2019. This data, consistent with a "kill zone" around incumbent platforms, supports our decision to recommend stricter review requirements of proposed M&A deals for aggregators like Meta and Google.
 
 ## Inputs — the named contract
 | Name | Value | Unit | Source |
