@@ -50,6 +50,10 @@ or normalization is applied:
   millions of USD, nominal (the paper does not say it is inflation-adjusted).
 - **Axes.** Recreated charts use the original ranges: x 2001–2019; y 0–3,000
   (Fig1a) and 0–4,000 (Fig1b).
+- **Chart format.** Chart title 18 pt bold; axis titles 11 pt bold. Titles
+  sit outside the plot area, and the plot area is inset (13% left, 17% top,
+  about 5% right and 19% bottom) so no title or axis label overlaps the
+  gridlines or tick labels.
 - **Labeling.** Each chart's caption credits Kamepalli, Rajan and Zingales
   (2022), Figure 1, data from PitchBook, and states that the values are
   read from the published figure. No repository URL appears in any caption.
