@@ -3,7 +3,7 @@ type: spec
 capability: economic-research
 engagement: research-paper
 date: 2026-10-09
-status: built            # draft | built | audited
+status: audited          # draft | built | audited
 built_with: "Claude Code, from this file"
 ---
 
@@ -107,3 +107,22 @@ or normalization is applied:
   year by year, against the original Figure 1 on printed p. 34 (PDF p. 35).
 - **Found:** it matches.
 - **Did:** no action.
+
+### 3. Data sheet, column F (Structure)
+- **Checked:** the `Data` sheet against the spec's Structure.
+- **Found:** column F holds units, the provenance pointer and the source
+  citation, which Structure does not list. It looks good.
+- **Did:** no action; kept as is.
+
+### 4. Fig1b y-axis title (Outputs, Conventions)
+- **Checked:** the axis titles on both charts.
+- **Found:** `Fig1b`'s y-axis title is "USD millions"; the spec fixes chart
+  titles but not axis titles. It looks good.
+- **Did:** no action; kept as is.
+
+### 5. Figure images (Outputs)
+- **Checked:** how `kill-zone-1a.png` and `kill-zone-1b.png` were produced.
+- **Found:** they are screenshots of the charts in Excel, including the source
+  line and some surrounding cell gridlines; the spec does not say how images
+  are exported. The screenshots are fine.
+- **Did:** no action; kept as is.
