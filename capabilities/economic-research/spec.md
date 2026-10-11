@@ -3,7 +3,7 @@ type: spec
 capability: economic-research
 engagement: research-paper
 date: 2026-10-09
-status: draft            # draft | built | audited
+status: built            # draft | built | audited
 built_with: "Claude Code, from this file"
 ---
 
