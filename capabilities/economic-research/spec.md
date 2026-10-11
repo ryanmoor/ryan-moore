@@ -10,6 +10,7 @@ built_with: "Claude Code, from this file"
 # Economic Research — model specification
 
 ## Purpose
+These graphs are re-created from Kamepalli et al. (2022) pg 34, Figures 1a and 1b. They show the number of social media startups funded by venture capital, and total venture capital investment dollars in social media startups between 2001 and 2019.
 
 ## Inputs — the named contract
 | Name | Value | Unit | Source |
