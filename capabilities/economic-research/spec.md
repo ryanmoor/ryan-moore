@@ -3,7 +3,7 @@ type: spec
 capability: economic-research
 engagement: research-paper
 date: 2026-10-09
-status: built            # draft | built | audited
+status: audited          # draft | built | audited
 built_with: "Claude Code, from this file"
 ---
 
@@ -73,3 +73,56 @@ or normalization is applied:
 - `Fig1b`: Dollar amount financed (in million $), 2001–2019.
 
 ## Audit findings
+
+### 1. Overlay check (Validation rules)
+- **Checked:** the 19 values for each series, read from the `Data` sheet of
+  `model.xlsx`, drawn as straight-line segments on the original Figure 1
+  images extracted from the paper (printed p. 34, PDF p. 35), at the
+  original's own pixel scale (about 6 deals and about $8M per pixel). The
+  vertical gap between the two lines was measured at every pixel column
+  (769 for Fig1a, 783 for Fig1b). The overlay image is not kept in the
+  repository because it contains the paper's copyrighted figure.
+- **Found:** both charts are within the spec's tolerance at every year.
+  - Fig1a: largest gap at a year 8 deals (2011); endpoints 2 (2001) and 7
+    (2019); median gap along the whole line 2.3 deals; largest anywhere 10.9,
+    just after 2014.
+  - Fig1b: largest gap at a year $15M (2018), exactly at the tolerance;
+    endpoints $5M (2001) and $3M (2019); median gap $3.2M; largest anywhere
+    $23.3M, just after 2018.
+  - The larger between-year gaps fall on steep segments, where a sub-pixel
+    horizontal offset shows as a large vertical gap (about $34M per pixel on
+    the 2018–2019 drop); the tolerance applies at each year.
+  - The 2018 dollar value sits at a sharp corner, where line thickness makes
+    the reading less precise: this measurement gives about $2,215M, the
+    original reading $2,199M; the workbook has $2,200M.
+  - No feature of the original falls between the annual points; straight
+    lines between the 19 values reproduce both curves.
+  - Limitation: the values were read from the same images, so this confirms
+    the reading, rounding and transcription, not the underlying PitchBook
+    figures, which the paper does not publish.
+- **Did:** no action.
+
+### 2. Visual comparison (Validation rules)
+- **Checked:** `kill-zone-1a.png` and `kill-zone-1b.png` compared by eye,
+  year by year, against the original Figure 1 on printed p. 34 (PDF p. 35).
+- **Found:** it matches.
+- **Did:** no action.
+
+### 3. Data sheet, column F (Structure)
+- **Checked:** the `Data` sheet against the spec's Structure.
+- **Found:** column F holds units, the provenance pointer and the source
+  citation, which Structure does not list. It looks good.
+- **Did:** no action; kept as is.
+
+### 4. Fig1b y-axis title (Outputs, Conventions)
+- **Checked:** the axis titles on both charts.
+- **Found:** `Fig1b`'s y-axis title is "USD millions"; the spec fixes chart
+  titles but not axis titles. It looks good.
+- **Did:** no action; kept as is.
+
+### 5. Figure images (Outputs)
+- **Checked:** how `kill-zone-1a.png` and `kill-zone-1b.png` were produced.
+- **Found:** they are screenshots of the charts in Excel, including the source
+  line and some surrounding cell gridlines; the spec does not say how images
+  are exported. The screenshots are fine.
+- **Did:** no action; kept as is.
